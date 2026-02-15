@@ -3037,7 +3037,6 @@ export const PartnerDashboard = ({ onLogout, partnerData }) => {
     );
 };
 
-export const NavItem = ({ icon, label, active, onClick }) => (
     <button
         onClick={onClick}
         className={`w-full flex items-center gap-4 px-5 py-4 rounded-2xl font-bold text-sm transition-all duration-300 ${active
@@ -3050,7 +3049,6 @@ export const NavItem = ({ icon, label, active, onClick }) => (
     </button>
 );
 
-export const OverviewTab = ({ spot, setActiveTab }) => (
     <div className="space-y-8">
         {/* Stats Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6">
@@ -3282,7 +3280,6 @@ export const ReviewsTab = ({ feedbacks }) => (
     </div>
 );
 
-export const SettingsTab = ({ partner }) => (
     <div className="bg-white/70 dark:bg-gray-900/70 backdrop-blur-xl rounded-[2.5rem] shadow-2xl border border-gray-100 dark:border-gray-800 p-12">
         <h3 className="text-3xl font-serif text-black dark:text-white mb-12">Heritage Identity</h3>
         <div className="space-y-12">
@@ -3317,7 +3314,6 @@ export const SettingsTab = ({ partner }) => (
     </div>
 );
 
-export const InvitationsTab = ({ partner, spot, showNotification }) => {
     const [invites, setInvites] = useState(() => {
         const stored = localStorage.getItem('collaboration_invites');
         const allInvites = stored ? JSON.parse(stored) : [];
@@ -3489,7 +3485,6 @@ export const InvitationsTab = ({ partner, spot, showNotification }) => {
     );
 };
 
-export const StatCard = ({ label, value, trend, icon, bgColor, onClick }) => (
     <div
         onClick={onClick}
         className="bg-white dark:bg-gray-900 p-8 rounded-[2rem] shadow-xl border border-gray-100 dark:border-gray-800 relative overflow-hidden group cursor-pointer transition-all hover:-translate-y-1"
