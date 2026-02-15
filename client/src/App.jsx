@@ -1,40 +1,19 @@
-﻿import { createClient } from '@supabase/supabase-js'; const supabaseUrl = import.meta.env.VITE_SUPABASE_URL; const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY; export const supabase = (supabaseUrl && supabaseAnonKey) ? createClient(supabaseUrl, supabaseAnonKey) : null;
+﻿import React, { useState, useEffect, useRef } from 'react';
+import {  } from 'lucide-react';
+import { createClient } from '@supabase/supabase-js'; const supabaseUrl = import.meta.env.VITE_SUPABASE_URL; const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY; export const supabase = (supabaseUrl && supabaseAnonKey) ? createClient(supabaseUrl, supabaseAnonKey) : null;
 import React from 'react';
-import { Home, Compass, Map, Heart } from 'lucide-react';
-import { Sparkles, Palette, Utensils, MapPin, Landmark, TreePine } from 'lucide-react';
 import React, { useState, useRef, useEffect } from 'react';
-import { MessageCircle, X, Send, Loader2, Sparkles } from 'lucide-react';
 import DOMPurify from 'dompurify';
-import { Calendar, MapPin, Tag, ArrowRight } from 'lucide-react';
 import React, { useState } from 'react';
-import Categories from './Categories';
-import PlaceCard from './PlaceCard';
-import { Search } from 'lucide-react';
-import { Heart, MapPin, Star } from 'lucide-react';
-import { featuredPlaces } from '../data';
-import { Send, MessageSquare, Star } from 'lucide-react';
-import { Search, Compass, ArrowRight } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 import React, { useState, useEffect } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import { Search, Navigation, Car, MapPin, Star, Clock, X, ChevronRight } from 'lucide-react';
 import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png';
 import markerIcon from 'leaflet/dist/images/marker-icon.png';
 import markerShadow from 'leaflet/dist/images/marker-shadow.png';
-import { User, Home, Compass, Map, Heart } from 'lucide-react';
-import { ChevronLeft, Share2, Heart, MapPin, Clock, IndianRupee, Star, Navigation, Check, MessageSquare, Car } from 'lucide-react';
-import FeedbackSection from './FeedbackSection';
-import { Heart } from 'lucide-react';
-import { Users, Map, BarChart3, LogOut, Shield, Search, Star, MessageSquare, Inbox, Check, X, Clock, Handshake, TrendingUp, Settings, Bell, Lock, Globe, Database, ExternalLink, Download, Trash2, RefreshCcw } from 'lucide-react';
-import { allPlaces } from './App';
-import { Lock, User, Eye, EyeOff, Mail, Phone, Shield, Handshake } from 'lucide-react';
-import { supabase } from './Supabase';
 import {
-import { Settings, Shield, Heart, HelpCircle, Info, ChevronRight, User, Phone, Mail, ArrowLeft, Bell, Moon, MapPin, Globe, Lock, FileText, ExternalLink, MessageSquare } from 'lucide-react';
-import { Navbar, Hero, Categories, FeaturedSection, BottomNav, Explore, Map, Saved, PlaceCard, Loader, PlaceDetails, EventsSection, ChatBot } from './AllComponents';
-import { ProfilePage, AuthPage, AdminDashboard, PartnerDashboard } from './AllPages';
 import { createClient } from '@supabase/supabase-js';
 
 export const BottomNavItem = ({ icon: _Icon, label, active, onClick }) => {
