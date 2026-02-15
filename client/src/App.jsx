@@ -1,20 +1,18 @@
-﻿import React, { useState, useEffect, useRef } from 'react';
-import {  } from 'lucide-react';
-import { createClient } from '@supabase/supabase-js'; const supabaseUrl = import.meta.env.VITE_SUPABASE_URL; const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY; export const supabase = (supabaseUrl && supabaseAnonKey) ? createClient(supabaseUrl, supabaseAnonKey) : null;
-import React from 'react';
-import React, { useState, useRef, useEffect } from 'react';
-import DOMPurify from 'dompurify';
-import React, { useState } from 'react';
-import React, { useEffect, useState } from 'react';
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect, useRef, StrictMode } from 'react';
+import {
+    Home, Compass, Map, Heart, Sparkles, Palette, Utensils, MapPin, Landmark, TreePine,
+    MessageCircle, X, Send, Loader2, Calendar, Tag, ArrowRight, Search, Star,
+    Navigation, Car, Clock, ChevronRight, User, ChevronLeft, Share2, IndianRupee,
+    Check, MessageSquare, Users, BarChart3, LogOut, Shield, Inbox, Handshake,
+    TrendingUp, Settings, Bell, Lock, Globe, Database, ExternalLink, Download,
+    Trash2, RefreshCcw, Eye, EyeOff, Mail, Phone, HelpCircle, Info, Moon, FileText
+} from 'lucide-react';
 import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png';
 import markerIcon from 'leaflet/dist/images/marker-icon.png';
-import markerShadow from 'leaflet/dist/images/marker-shadow.png';
-import {
-import { createClient } from '@supabase/supabase-js';
+
 
 export const BottomNavItem = ({ icon: _Icon, label, active, onClick }) => {
     return (
@@ -745,46 +743,46 @@ export const Hero = ({ onExploreClick }) => {
 
 
 export const Loader = ({ onFinish }) => {
-  const [isVisible, setIsVisible] = useState(true);
+    const [isVisible, setIsVisible] = useState(true);
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsVisible(false);
-      if (onFinish) onFinish();
-    }, 4500); // 4.5 seconds to appreciate the premium animation
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setIsVisible(false);
+            if (onFinish) onFinish();
+        }, 4500); // 4.5 seconds to appreciate the premium animation
 
-    return () => clearTimeout(timer);
-  }, [onFinish]);
+        return () => clearTimeout(timer);
+    }, [onFinish]);
 
-  if (!isVisible) return null;
+    if (!isVisible) return null;
 
-  return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-[#f8f9fa] flex-col overflow-hidden transition-opacity duration-1000">
-      <div className="relative flex flex-col items-center">
+    return (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-[#f8f9fa] flex-col overflow-hidden transition-opacity duration-1000">
+            <div className="relative flex flex-col items-center">
 
-        {/* Logo Text */}
-        <div className="flex items-baseline space-x-3 z-10 scale-110 sm:scale-125">
-          <h1 className="text-5xl font-serif text-black tracking-tight opacity-0 animate-fade-in-up"
-            style={{ fontFamily: "'Playfair Display', serif" }}>
-            Mysuru
-          </h1>
-          <h1 className="text-5xl font-bold text-[#D4AF37] tracking-tight opacity-0 animate-fade-in-up-delay">
-            marga
-          </h1>
-        </div>
+                {/* Logo Text */}
+                <div className="flex items-baseline space-x-3 z-10 scale-110 sm:scale-125">
+                    <h1 className="text-5xl font-serif text-black tracking-tight opacity-0 animate-fade-in-up"
+                        style={{ fontFamily: "'Playfair Display', serif" }}>
+                        Mysuru
+                    </h1>
+                    <h1 className="text-5xl font-bold text-[#D4AF37] tracking-tight opacity-0 animate-fade-in-up-delay">
+                        marga
+                    </h1>
+                </div>
 
 
-        {/* Progress bar or subtle indicator */}
-        <div className="mt-20 w-40 h-[1.5px] bg-gray-200 rounded-full overflow-hidden">
-          <div className="h-full bg-[#D4AF37] animate-loading-progress shadow-[0_0_10px_#D4AF37]"></div>
-        </div>
+                {/* Progress bar or subtle indicator */}
+                <div className="mt-20 w-40 h-[1.5px] bg-gray-200 rounded-full overflow-hidden">
+                    <div className="h-full bg-[#D4AF37] animate-loading-progress shadow-[0_0_10px_#D4AF37]"></div>
+                </div>
 
-        <p className="mt-4 text-[10px] uppercase tracking-[0.3em] text-gray-400 opacity-0 animate-fade-in-slow">
-          Exploring Hidden Treasures
-        </p>
-      </div>
+                <p className="mt-4 text-[10px] uppercase tracking-[0.3em] text-gray-400 opacity-0 animate-fade-in-slow">
+                    Exploring Hidden Treasures
+                </p>
+            </div>
 
-      <style jsx>{`
+            <style jsx>{`
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap');
 
         @keyframes fade-in-up {
@@ -820,8 +818,8 @@ export const Loader = ({ onFinish }) => {
           animation: loading-progress 4.5s cubic-bezier(0.1, 0, 0.3, 1) forwards;
         }
       `}</style>
-    </div>
-  );
+        </div>
+    );
 };
 
 
@@ -2820,7 +2818,7 @@ export const AuthPage = ({ onLogin, onSignUp }) => {
     );
 };
 
-    LayoutDashboard,
+LayoutDashboard,
     Store,
     MessageSquare,
     Settings,
@@ -2839,7 +2837,6 @@ export const AuthPage = ({ onLogin, onSignUp }) => {
     Inbox,
     Calendar,
     Ticket
-} from 'lucide-react';
 
 export const PartnerDashboard = ({ onLogout, partnerData }) => {
     const [activeTab, setActiveTab] = useState('overview');
@@ -4046,500 +4043,500 @@ const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
 if (!supabaseUrl || !supabaseAnonKey) {
-  console.warn('âš ï¸ Supabase credentials not configured. Check your .env file.');
+    console.warn('âš ï¸ Supabase credentials not configured. Check your .env file.');
 }
 
 export const supabase = (supabaseUrl && supabaseAnonKey)
-  ? createClient(supabaseUrl, supabaseAnonKey)
-  : null;
+    ? createClient(supabaseUrl, supabaseAnonKey)
+    : null;
 
 // --- STATIC DATA ---
 export const featuredPlaces = [
-  {
-    id: 'karanji-lake',
-    title: "Karanji Lake",
-    category: "Nature",
-    categoryColor: "bg-green-500",
-    description: "Serene nature trail with butterfly park and panoramic palace views",
-    location: "Siddhartha Layout",
-    rating: 4.3,
-    coords: [12.3021, 76.6715],
-    image: "/karanji.jpg"
-  }
+    {
+        id: 'karanji-lake',
+        title: "Karanji Lake",
+        category: "Nature",
+        categoryColor: "bg-green-500",
+        description: "Serene nature trail with butterfly park and panoramic palace views",
+        location: "Siddhartha Layout",
+        rating: 4.3,
+        coords: [12.3021, 76.6715],
+        image: "/karanji.jpg"
+    }
 ];
 
 export const popularPlaces = [
-  {
-    id: 'karanji-lake',
-    title: "Karanji Lake",
-    category: "Nature",
-    categoryColor: "bg-green-500",
-    description: "Serene nature trail with butterfly park and panoramic palace views",
-    location: "Siddhartha Layout",
-    rating: 4.3,
-    coords: [12.3021, 76.6715],
-    image: "/karanji.jpg"
-  }
+    {
+        id: 'karanji-lake',
+        title: "Karanji Lake",
+        category: "Nature",
+        categoryColor: "bg-green-500",
+        description: "Serene nature trail with butterfly park and panoramic palace views",
+        location: "Siddhartha Layout",
+        rating: 4.3,
+        coords: [12.3021, 76.6715],
+        image: "/karanji.jpg"
+    }
 ];
 
 const allPlacesMap = new Map();
 [...featuredPlaces, ...popularPlaces].forEach(place => {
-  allPlacesMap.set(place.id, place);
+    allPlacesMap.set(place.id, place);
 });
 export const allPlaces = Array.from(allPlacesMap.values());
 
 
 
 function App() {
-  const [isLoading, setIsLoading] = useState(true);
-  const [isAuthRestoring, setIsAuthRestoring] = useState(true); // New state for initial check
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [isSignUp, setIsSignUp] = useState(false);
-  const [userRole, setUserRole] = useState(() => {
-    const saved = localStorage.getItem('userData');
-    if (saved) {
-      try {
-        return JSON.parse(saved).role || 'user';
-      } catch (e) { return 'user'; }
-    }
-    return 'user';
-  });
-  const [userData, setUserData] = useState(() => {
-    const saved = localStorage.getItem('userData');
-    if (saved) {
-      try {
-        return JSON.parse(saved);
-      } catch (e) { return null; }
-    }
-    return null;
-  });
-  const [activeTab, setActiveTab] = useState(() => {
-    return localStorage.getItem('activeTab') || 'home';
-  });
-  const [selectedPlace, setSelectedPlace] = useState(null);
-  const [mapDestination, setMapDestination] = useState(null);
-  const [isDarkMode, setIsDarkMode] = useState(() => {
-    return localStorage.getItem('theme') === 'dark';
-  });
-  const [savedPlaceIds, setSavedPlaceIds] = useState(() => {
-    const saved = localStorage.getItem('savedPlaces');
-    return saved ? JSON.parse(saved) : [];
-  });
-  const [spots, setSpots] = useState(allPlaces);
-  const [events, setEvents] = useState([]);
-
-  // Fetch spots from Supabase
-  const fetchSpots = async () => {
-    try {
-      if (!supabase) return;
-
-      const { data, error } = await supabase
-        .from('heritage_spots')
-        .select('*');
-
-      if (error) throw error;
-
-      if (data && data.length > 0) {
-        // Map Supabase data to the application format
-        const supabaseSpots = data.map(s => ({
-          id: s.id,
-          title: s.title,
-          category: s.category || 'Hidden Gem',
-          description: s.description,
-          location: s.address || 'Mysuru',
-          rating: 4.5, // Default for new spots
-          coords: [s.location_lat || 12.3021, s.location_long || 76.6715],
-          image: s.image_url || '/src/assets/mysore-palace-daytime.jpg',
-          isVerified: s.is_verified
-        }));
-
-        // Merge Supabase spots with hardcoded spots
-        setSpots([...supabaseSpots, ...allPlaces.filter(p => !supabaseSpots.some(s => s.title === p.title))]);
-      }
-    } catch (err) {
-      console.error("Error fetching heritage spots:", err);
-    }
-  };
-
-  // Fetch events from Supabase
-  const fetchEvents = async () => {
-    try {
-      if (!supabase) return;
-      const { data, error } = await supabase
-        .from('heritage_events')
-        .select('*')
-        .eq('status', 'active')
-        .order('event_date', { ascending: true });
-
-      if (error) throw error;
-      if (data) setEvents(data);
-    } catch (err) {
-      console.error("Error fetching heritage events:", err);
-    }
-  };
-
-  React.useEffect(() => {
-    fetchSpots();
-    fetchEvents();
-  }, []);
-
-  // Persist Tab
-  React.useEffect(() => {
-    localStorage.setItem('activeTab', activeTab);
-  }, [activeTab]);
-
-  // Handle dark mode persistence
-  React.useEffect(() => {
-    localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
-    if (isDarkMode) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-  }, [isDarkMode]);
-
-  React.useEffect(() => {
-    localStorage.setItem('savedPlaces', JSON.stringify(savedPlaceIds));
-  }, [savedPlaceIds]);
-
-  // Initial Auth Check
-  React.useEffect(() => {
-    setIsAuthRestoring(false); // Auth restoration attempt complete
-  }, []);
-
-  const [_session, setSession] = useState(null);
-
-  const fetchProfile = async (userId, email) => {
-    try {
-      const { data, error } = await supabase
-        .from('profiles')
-        .select('*')
-        .eq('id', userId)
-        .single();
-
-      if (error) {
-        console.warn('Profile sync: using current details or defaults');
-        return;
-      }
-
-      if (data) {
-        const updatedUser = {
-          ...data,
-          fullName: data.full_name || data.fullName,
-          email: email || data.email,
-          phone: data.phone || 'N/A',
-          role: data.role || 'user'
-        };
-        setUserData(updatedUser);
-        setUserRole(updatedUser.role);
-        setIsAuthenticated(true);
-        localStorage.setItem('userData', JSON.stringify(updatedUser));
-      }
-    } catch (err) {
-      console.error('Profile sync failed', err);
-    }
-  };
-
-  const fetchSavedPlaces = async (userId) => {
-    try {
-      if (!supabase) return;
-      const { data, error } = await supabase
-        .from('saved_places')
-        .select('spot_id')
-        .eq('user_id', userId);
-
-      if (error) throw error;
-      if (data) {
-        setSavedPlaceIds(data.map(item => item.spot_id));
-      }
-    } catch (err) {
-      console.error('Failed to fetch saved places', err);
-    }
-  };
-
-  React.useEffect(() => {
-    if (!supabase) return;
-
-    // 1. Check active session
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      if (session) {
-        setSession(session);
-        fetchProfile(session.user.id, session.user.email);
-      }
+    const [isLoading, setIsLoading] = useState(true);
+    const [isAuthRestoring, setIsAuthRestoring] = useState(true); // New state for initial check
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [isSignUp, setIsSignUp] = useState(false);
+    const [userRole, setUserRole] = useState(() => {
+        const saved = localStorage.getItem('userData');
+        if (saved) {
+            try {
+                return JSON.parse(saved).role || 'user';
+            } catch (e) { return 'user'; }
+        }
+        return 'user';
     });
+    const [userData, setUserData] = useState(() => {
+        const saved = localStorage.getItem('userData');
+        if (saved) {
+            try {
+                return JSON.parse(saved);
+            } catch (e) { return null; }
+        }
+        return null;
+    });
+    const [activeTab, setActiveTab] = useState(() => {
+        return localStorage.getItem('activeTab') || 'home';
+    });
+    const [selectedPlace, setSelectedPlace] = useState(null);
+    const [mapDestination, setMapDestination] = useState(null);
+    const [isDarkMode, setIsDarkMode] = useState(() => {
+        return localStorage.getItem('theme') === 'dark';
+    });
+    const [savedPlaceIds, setSavedPlaceIds] = useState(() => {
+        const saved = localStorage.getItem('savedPlaces');
+        return saved ? JSON.parse(saved) : [];
+    });
+    const [spots, setSpots] = useState(allPlaces);
+    const [events, setEvents] = useState([]);
 
-    // 2. Listen for changes
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, newSession) => {
-      if (newSession) {
-        setSession(newSession);
-        fetchProfile(newSession.user.id, newSession.user.email);
-        fetchSavedPlaces(newSession.user.id);
-      } else if (event === 'SIGNED_OUT') {
-        // Only clear if it's an explicit sign out event
+    // Fetch spots from Supabase
+    const fetchSpots = async () => {
+        try {
+            if (!supabase) return;
+
+            const { data, error } = await supabase
+                .from('heritage_spots')
+                .select('*');
+
+            if (error) throw error;
+
+            if (data && data.length > 0) {
+                // Map Supabase data to the application format
+                const supabaseSpots = data.map(s => ({
+                    id: s.id,
+                    title: s.title,
+                    category: s.category || 'Hidden Gem',
+                    description: s.description,
+                    location: s.address || 'Mysuru',
+                    rating: 4.5, // Default for new spots
+                    coords: [s.location_lat || 12.3021, s.location_long || 76.6715],
+                    image: s.image_url || '/src/assets/mysore-palace-daytime.jpg',
+                    isVerified: s.is_verified
+                }));
+
+                // Merge Supabase spots with hardcoded spots
+                setSpots([...supabaseSpots, ...allPlaces.filter(p => !supabaseSpots.some(s => s.title === p.title))]);
+            }
+        } catch (err) {
+            console.error("Error fetching heritage spots:", err);
+        }
+    };
+
+    // Fetch events from Supabase
+    const fetchEvents = async () => {
+        try {
+            if (!supabase) return;
+            const { data, error } = await supabase
+                .from('heritage_events')
+                .select('*')
+                .eq('status', 'active')
+                .order('event_date', { ascending: true });
+
+            if (error) throw error;
+            if (data) setEvents(data);
+        } catch (err) {
+            console.error("Error fetching heritage events:", err);
+        }
+    };
+
+    React.useEffect(() => {
+        fetchSpots();
+        fetchEvents();
+    }, []);
+
+    // Persist Tab
+    React.useEffect(() => {
+        localStorage.setItem('activeTab', activeTab);
+    }, [activeTab]);
+
+    // Handle dark mode persistence
+    React.useEffect(() => {
+        localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+        if (isDarkMode) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    }, [isDarkMode]);
+
+    React.useEffect(() => {
+        localStorage.setItem('savedPlaces', JSON.stringify(savedPlaceIds));
+    }, [savedPlaceIds]);
+
+    // Initial Auth Check
+    React.useEffect(() => {
+        setIsAuthRestoring(false); // Auth restoration attempt complete
+    }, []);
+
+    const [_session, setSession] = useState(null);
+
+    const fetchProfile = async (userId, email) => {
+        try {
+            const { data, error } = await supabase
+                .from('profiles')
+                .select('*')
+                .eq('id', userId)
+                .single();
+
+            if (error) {
+                console.warn('Profile sync: using current details or defaults');
+                return;
+            }
+
+            if (data) {
+                const updatedUser = {
+                    ...data,
+                    fullName: data.full_name || data.fullName,
+                    email: email || data.email,
+                    phone: data.phone || 'N/A',
+                    role: data.role || 'user'
+                };
+                setUserData(updatedUser);
+                setUserRole(updatedUser.role);
+                setIsAuthenticated(true);
+                localStorage.setItem('userData', JSON.stringify(updatedUser));
+            }
+        } catch (err) {
+            console.error('Profile sync failed', err);
+        }
+    };
+
+    const fetchSavedPlaces = async (userId) => {
+        try {
+            if (!supabase) return;
+            const { data, error } = await supabase
+                .from('saved_places')
+                .select('spot_id')
+                .eq('user_id', userId);
+
+            if (error) throw error;
+            if (data) {
+                setSavedPlaceIds(data.map(item => item.spot_id));
+            }
+        } catch (err) {
+            console.error('Failed to fetch saved places', err);
+        }
+    };
+
+    React.useEffect(() => {
+        if (!supabase) return;
+
+        // 1. Check active session
+        supabase.auth.getSession().then(({ data: { session } }) => {
+            if (session) {
+                setSession(session);
+                fetchProfile(session.user.id, session.user.email);
+            }
+        });
+
+        // 2. Listen for changes
+        const { data: { subscription } } = supabase.auth.onAuthStateChange((event, newSession) => {
+            if (newSession) {
+                setSession(newSession);
+                fetchProfile(newSession.user.id, newSession.user.email);
+                fetchSavedPlaces(newSession.user.id);
+            } else if (event === 'SIGNED_OUT') {
+                // Only clear if it's an explicit sign out event
+                setIsAuthenticated(false);
+                setUserData(null);
+                setUserRole('user');
+                localStorage.removeItem('userData');
+            }
+        });
+
+        return () => subscription.unsubscribe();
+    }, []);
+
+    const toggleSave = async (e, id) => {
+        e.stopPropagation(); // Prevent card click
+
+        // Check if ID is a valid UUID (database entries) or a local string
+        const isLocalId = !/^[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(id);
+
+        if (isAuthenticated && userData?.id && !isLocalId) {
+            const isAlreadySaved = savedPlaceIds.includes(id);
+            try {
+                if (isAlreadySaved) {
+                    const { error } = await supabase
+                        .from('saved_places')
+                        .delete()
+                        .eq('user_id', userData.id)
+                        .eq('spot_id', id);
+                    if (error) throw error;
+                    setSavedPlaceIds(prev => prev.filter(pId => pId !== id));
+                } else {
+                    const { error } = await supabase
+                        .from('saved_places')
+                        .insert([{ user_id: userData.id, spot_id: id }]);
+                    if (error) throw error;
+                    setSavedPlaceIds(prev => [...prev, id]);
+                }
+            } catch (err) {
+                console.error("Supabase toggle save failed:", err);
+                // Fallback to local state if DB fails
+                setSavedPlaceIds(prev =>
+                    prev.includes(id) ? prev.filter(pId => pId !== id) : [...prev, id]
+                );
+            }
+        } else {
+            // Local Guest fallback
+            setSavedPlaceIds(prev =>
+                prev.includes(id) ? prev.filter(pId => pId !== id) : [...prev, id]
+            );
+        }
+    };
+
+    const toggleDarkMode = () => {
+        setIsDarkMode(!isDarkMode);
+        if (!isDarkMode) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    };
+
+    const handleLogout = async () => {
+        if (supabase) {
+            await supabase.auth.signOut();
+        }
+        // Always clear localStorage on logout
+        localStorage.removeItem('userData');
+        localStorage.removeItem('activeTab');
+        localStorage.removeItem('theme');
         setIsAuthenticated(false);
         setUserData(null);
         setUserRole('user');
-        localStorage.removeItem('userData');
-      }
-    });
+        setIsSignUp(false); // Ensure we return to login page, not signup
+        setActiveTab('home');
+    };
 
-    return () => subscription.unsubscribe();
-  }, []);
-
-  const toggleSave = async (e, id) => {
-    e.stopPropagation(); // Prevent card click
-
-    // Check if ID is a valid UUID (database entries) or a local string
-    const isLocalId = !/^[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(id);
-
-    if (isAuthenticated && userData?.id && !isLocalId) {
-      const isAlreadySaved = savedPlaceIds.includes(id);
-      try {
-        if (isAlreadySaved) {
-          const { error } = await supabase
-            .from('saved_places')
-            .delete()
-            .eq('user_id', userData.id)
-            .eq('spot_id', id);
-          if (error) throw error;
-          setSavedPlaceIds(prev => prev.filter(pId => pId !== id));
-        } else {
-          const { error } = await supabase
-            .from('saved_places')
-            .insert([{ user_id: userData.id, spot_id: id }]);
-          if (error) throw error;
-          setSavedPlaceIds(prev => [...prev, id]);
+    const handleLogin = (role, userProfile) => {
+        // Optimistic update if passed from LoginPage
+        if (userProfile) {
+            const normalizedProfile = {
+                ...userProfile,
+                fullName: userProfile.fullName || userProfile.full_name,
+                role: role
+            };
+            setUserData(normalizedProfile);
+            setUserRole(role);
+            setIsLoading(true); // Trigger premium loader
+            setIsAuthenticated(true);
+            localStorage.setItem('userData', JSON.stringify(normalizedProfile));
         }
-      } catch (err) {
-        console.error("Supabase toggle save failed:", err);
-        // Fallback to local state if DB fails
-        setSavedPlaceIds(prev =>
-          prev.includes(id) ? prev.filter(pId => pId !== id) : [...prev, id]
+    };
+
+    const handleSignUp = (role, userProfile) => {
+        if (userProfile) {
+            const normalizedProfile = {
+                ...userProfile,
+                fullName: userProfile.fullName || userProfile.full_name,
+                role: role || userProfile.role || 'user'
+            };
+            setUserData(normalizedProfile);
+            setUserRole(role || normalizedProfile.role || 'user');
+            localStorage.setItem('userData', JSON.stringify(normalizedProfile));
+        } else {
+            setUserRole(role || 'user');
+        }
+        setIsLoading(true); // Trigger premium loader
+        setIsAuthenticated(true);
+    };
+
+    const handlePlaceClick = (place) => {
+        setSelectedPlace(place);
+        setActiveTab('details');
+    };
+
+    const updateUserProfile = async (updates) => {
+        try {
+            if (supabase && userData?.id) {
+                const { error } = await supabase
+                    .from('profiles')
+                    .update(updates)
+                    .eq('id', userData.id);
+                if (error) throw error;
+            }
+
+            // Update local state and storage
+            const updatedUser = { ...userData, ...updates };
+            setUserData(updatedUser);
+            localStorage.setItem('userData', JSON.stringify(updatedUser));
+            return { success: true };
+        } catch (err) {
+            console.error('Update profile failed', err);
+            return { success: false, error: err.message };
+        }
+    };
+
+    const handleFeaturedCardClick = (place) => {
+        handlePlaceClick(place);
+    };
+
+    if (isLoading) {
+        return <Loader onFinish={() => setIsLoading(false)} />;
+    }
+
+    if (!isAuthenticated) {
+        return (
+            <AuthPage
+                onLogin={handleLogin}
+                onSignUp={handleSignUp}
+            />
         );
-      }
-    } else {
-      // Local Guest fallback
-      setSavedPlaceIds(prev =>
-        prev.includes(id) ? prev.filter(pId => pId !== id) : [...prev, id]
-      );
     }
-  };
 
-  const toggleDarkMode = () => {
-    setIsDarkMode(!isDarkMode);
-    if (!isDarkMode) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
+    if (userRole === 'admin') {
+        return <AdminDashboard onLogout={handleLogout} />;
     }
-  };
 
-  const handleLogout = async () => {
-    if (supabase) {
-      await supabase.auth.signOut();
+    if (userRole === 'partner') {
+        return <PartnerDashboard onLogout={handleLogout} partnerData={userData} />;
     }
-    // Always clear localStorage on logout
-    localStorage.removeItem('userData');
-    localStorage.removeItem('activeTab');
-    localStorage.removeItem('theme');
-    setIsAuthenticated(false);
-    setUserData(null);
-    setUserRole('user');
-    setIsSignUp(false); // Ensure we return to login page, not signup
-    setActiveTab('home');
-  };
 
-  const handleLogin = (role, userProfile) => {
-    // Optimistic update if passed from LoginPage
-    if (userProfile) {
-      const normalizedProfile = {
-        ...userProfile,
-        fullName: userProfile.fullName || userProfile.full_name,
-        role: role
-      };
-      setUserData(normalizedProfile);
-      setUserRole(role);
-      setIsLoading(true); // Trigger premium loader
-      setIsAuthenticated(true);
-      localStorage.setItem('userData', JSON.stringify(normalizedProfile));
-    }
-  };
+    const renderContent = () => {
+        switch (activeTab) {
+            case 'details':
+                return (
+                    <PlaceDetails
+                        place={selectedPlace}
+                        onBack={() => setActiveTab('home')}
+                        isSaved={savedPlaceIds.includes(selectedPlace?.id)}
+                        onToggleSave={toggleSave}
+                        userEmail={userData?.email}
+                        onGetDirections={(place) => {
+                            setMapDestination(place);
+                            setActiveTab('map');
+                        }}
+                    />
+                );
+            case 'home':
+                return (
+                    <>
+                        <Hero onExploreClick={() => setActiveTab('explore')} />
+                        <Categories onSeeAllClick={() => setActiveTab('explore')} />
+                        <FeaturedSection
+                            places={spots}
+                            onCardClick={handleFeaturedCardClick}
+                            savedPlaceIds={savedPlaceIds}
+                            onToggleSave={toggleSave}
+                            onSeeAllClick={() => setActiveTab('map')}
+                        />
+                        <EventsSection events={events} />
+                    </>
+                );
+            case 'explore':
+                return (
+                    <Explore
+                        places={spots}
+                        savedPlaceIds={savedPlaceIds}
+                        onToggleSave={toggleSave}
+                        onCardClick={handlePlaceClick}
+                    />
+                );
+            case 'map':
+                return <Map places={spots} destination={mapDestination} />;
+            case 'saved':
+                return (
+                    <Saved
+                        savedPlaceIds={savedPlaceIds}
+                        allPlaces={spots}
+                        onToggleSave={toggleSave}
+                        onCardClick={handlePlaceClick}
+                    />
+                );
+            case 'profile':
+                return (
+                    <ProfilePage
+                        userData={userData}
+                        onUpdateProfile={updateUserProfile}
+                        savedPlaceIds={savedPlaceIds}
+                        allPlaces={spots}
+                        onBack={() => setActiveTab('home')}
+                        isDarkMode={isDarkMode}
+                        onToggleDarkMode={toggleDarkMode}
+                        onLogout={handleLogout}
+                    />
+                );
+            default:
+                return null;
+        }
+    };
 
-  const handleSignUp = (role, userProfile) => {
-    if (userProfile) {
-      const normalizedProfile = {
-        ...userProfile,
-        fullName: userProfile.fullName || userProfile.full_name,
-        role: role || userProfile.role || 'user'
-      };
-      setUserData(normalizedProfile);
-      setUserRole(role || normalizedProfile.role || 'user');
-      localStorage.setItem('userData', JSON.stringify(normalizedProfile));
-    } else {
-      setUserRole(role || 'user');
-    }
-    setIsLoading(true); // Trigger premium loader
-    setIsAuthenticated(true);
-  };
-
-  const handlePlaceClick = (place) => {
-    setSelectedPlace(place);
-    setActiveTab('details');
-  };
-
-  const updateUserProfile = async (updates) => {
-    try {
-      if (supabase && userData?.id) {
-        const { error } = await supabase
-          .from('profiles')
-          .update(updates)
-          .eq('id', userData.id);
-        if (error) throw error;
-      }
-
-      // Update local state and storage
-      const updatedUser = { ...userData, ...updates };
-      setUserData(updatedUser);
-      localStorage.setItem('userData', JSON.stringify(updatedUser));
-      return { success: true };
-    } catch (err) {
-      console.error('Update profile failed', err);
-      return { success: false, error: err.message };
-    }
-  };
-
-  const handleFeaturedCardClick = (place) => {
-    handlePlaceClick(place);
-  };
-
-  if (isLoading) {
-    return <Loader onFinish={() => setIsLoading(false)} />;
-  }
-
-  if (!isAuthenticated) {
     return (
-      <AuthPage
-        onLogin={handleLogin}
-        onSignUp={handleSignUp}
-      />
+        <div className="min-h-screen bg-mysore-light dark:bg-mysore-dark transition-colors duration-200 selection:bg-[#D4AF37]/30 flex flex-col">
+            {!supabase && (
+                <div className="bg-red-500 text-white text-[10px] py-1 px-4 text-center font-bold animate-pulse z-50">
+                    âš ï¸ DEMO MODE: Supabase not connected. Check your .env file!
+                </div>
+            )}
+
+            {activeTab !== 'profile' && activeTab !== 'details' && (
+                <div className="sticky top-0 z-40 bg-mysore-light/80 dark:bg-mysore-dark/80 backdrop-blur-xl border-b border-gray-100 dark:border-gray-800">
+                    <div className="max-w-7xl mx-auto w-full">
+                        <Navbar
+                            onProfileClick={() => setActiveTab('profile')}
+                            activeTab={activeTab}
+                            setActiveTab={setActiveTab}
+                        />
+                    </div>
+                </div>
+            )}
+
+            <div className={`flex-1 ${activeTab !== 'map' && activeTab !== 'details' ? 'overflow-y-auto pb-24 md:pb-0 custom-scrollbar' : 'overflow-hidden h-[calc(100vh-64px)]'}`}>
+                <div className="max-w-7xl mx-auto w-full h-full">
+                    {renderContent()}
+                </div>
+            </div>
+
+            {activeTab !== 'profile' && activeTab !== 'details' && (
+                <div className="md:hidden fixed bottom-0 left-0 right-0 z-50">
+                    <BottomNav activeTab={activeTab} setActiveTab={setActiveTab} />
+                </div>
+            )}
+
+            {/* ChatBot - Available on all user pages */}
+            {isAuthenticated && userRole === 'user' && activeTab !== 'profile' && activeTab !== 'details' && (
+                <ChatBot />
+            )}
+        </div>
     );
-  }
-
-  if (userRole === 'admin') {
-    return <AdminDashboard onLogout={handleLogout} />;
-  }
-
-  if (userRole === 'partner') {
-    return <PartnerDashboard onLogout={handleLogout} partnerData={userData} />;
-  }
-
-  const renderContent = () => {
-    switch (activeTab) {
-      case 'details':
-        return (
-          <PlaceDetails
-            place={selectedPlace}
-            onBack={() => setActiveTab('home')}
-            isSaved={savedPlaceIds.includes(selectedPlace?.id)}
-            onToggleSave={toggleSave}
-            userEmail={userData?.email}
-            onGetDirections={(place) => {
-              setMapDestination(place);
-              setActiveTab('map');
-            }}
-          />
-        );
-      case 'home':
-        return (
-          <>
-            <Hero onExploreClick={() => setActiveTab('explore')} />
-            <Categories onSeeAllClick={() => setActiveTab('explore')} />
-            <FeaturedSection
-              places={spots}
-              onCardClick={handleFeaturedCardClick}
-              savedPlaceIds={savedPlaceIds}
-              onToggleSave={toggleSave}
-              onSeeAllClick={() => setActiveTab('map')}
-            />
-            <EventsSection events={events} />
-          </>
-        );
-      case 'explore':
-        return (
-          <Explore
-            places={spots}
-            savedPlaceIds={savedPlaceIds}
-            onToggleSave={toggleSave}
-            onCardClick={handlePlaceClick}
-          />
-        );
-      case 'map':
-        return <Map places={spots} destination={mapDestination} />;
-      case 'saved':
-        return (
-          <Saved
-            savedPlaceIds={savedPlaceIds}
-            allPlaces={spots}
-            onToggleSave={toggleSave}
-            onCardClick={handlePlaceClick}
-          />
-        );
-      case 'profile':
-        return (
-          <ProfilePage
-            userData={userData}
-            onUpdateProfile={updateUserProfile}
-            savedPlaceIds={savedPlaceIds}
-            allPlaces={spots}
-            onBack={() => setActiveTab('home')}
-            isDarkMode={isDarkMode}
-            onToggleDarkMode={toggleDarkMode}
-            onLogout={handleLogout}
-          />
-        );
-      default:
-        return null;
-    }
-  };
-
-  return (
-    <div className="min-h-screen bg-mysore-light dark:bg-mysore-dark transition-colors duration-200 selection:bg-[#D4AF37]/30 flex flex-col">
-      {!supabase && (
-        <div className="bg-red-500 text-white text-[10px] py-1 px-4 text-center font-bold animate-pulse z-50">
-          âš ï¸ DEMO MODE: Supabase not connected. Check your .env file!
-        </div>
-      )}
-
-      {activeTab !== 'profile' && activeTab !== 'details' && (
-        <div className="sticky top-0 z-40 bg-mysore-light/80 dark:bg-mysore-dark/80 backdrop-blur-xl border-b border-gray-100 dark:border-gray-800">
-          <div className="max-w-7xl mx-auto w-full">
-            <Navbar
-              onProfileClick={() => setActiveTab('profile')}
-              activeTab={activeTab}
-              setActiveTab={setActiveTab}
-            />
-          </div>
-        </div>
-      )}
-
-      <div className={`flex-1 ${activeTab !== 'map' && activeTab !== 'details' ? 'overflow-y-auto pb-24 md:pb-0 custom-scrollbar' : 'overflow-hidden h-[calc(100vh-64px)]'}`}>
-        <div className="max-w-7xl mx-auto w-full h-full">
-          {renderContent()}
-        </div>
-      </div>
-
-      {activeTab !== 'profile' && activeTab !== 'details' && (
-        <div className="md:hidden fixed bottom-0 left-0 right-0 z-50">
-          <BottomNav activeTab={activeTab} setActiveTab={setActiveTab} />
-        </div>
-      )}
-
-      {/* ChatBot - Available on all user pages */}
-      {isAuthenticated && userRole === 'user' && activeTab !== 'profile' && activeTab !== 'details' && (
-        <ChatBot />
-      )}
-    </div>
-  );
 }
 
 export default App;
