@@ -7,7 +7,7 @@ import {
     TrendingUp, Settings, Bell, Lock, Globe, Database, ExternalLink, Download,
     Trash2, RefreshCcw, Eye, EyeOff, Mail, Phone, HelpCircle, Info, Moon, FileText
 } from 'lucide-react';
-import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';l
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png';
@@ -4048,15 +4048,6 @@ export const ToggleItem = ({ icon: _Icon, label, defaultChecked, checked, onTogg
         </div>
     );
 };
-
-
-
-
-
-
-if (!supabaseUrl || !supabaseAnonKey) {
-    console.warn('Supabase credentials not configured. Check your .env file.');
-}
 
 
 // --- STATIC DATA ---
