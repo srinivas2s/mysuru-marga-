@@ -5,7 +5,8 @@ import {
     Navigation, Car, Clock, ChevronRight, User, ChevronLeft, Share2, IndianRupee,
     Check, MessageSquare, Users, BarChart3, LogOut, Shield, Inbox, Handshake,
     TrendingUp, Settings, Bell, Lock, Globe, Database, ExternalLink, Download,
-    Trash2, RefreshCcw, Eye, EyeOff, Mail, Phone, HelpCircle, Info, Moon, FileText
+    Trash2, RefreshCcw, Eye, EyeOff, Mail, Phone, HelpCircle, Info, Moon, FileText,
+    LayoutDashboard, Store, Camera, Plus, Ticket
 } from 'lucide-react';
 import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 import L from 'leaflet';
@@ -2796,25 +2797,7 @@ export const AuthPage = ({ onLogin, onSignUp }) => {
     );
 };
 
-LayoutDashboard,
-    Store,
-    MessageSquare,
-    Settings,
-    LogOut,
-    TrendingUp,
-    Users,
-    Star,
-    Camera,
-    Plus,
-    Clock,
-    MapPin,
-    Utensils,
-    Palette,
-    Sparkles,
-    Send,
-    Inbox,
-    Calendar,
-    Ticket
+
 
 export const PartnerDashboard = ({ onLogout, partnerData }) => {
     const [activeTab, setActiveTab] = useState('overview');
