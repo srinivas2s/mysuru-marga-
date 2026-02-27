@@ -1190,7 +1190,7 @@ export const Navbar = ({ onProfileClick, activeTab, setActiveTab }) => {
     );
 
     return (
-        <nav className="flex justify-between items-center px-8 md:px-12 py-6 border-b border-transparent md:border-gray-100 md:dark:border-gray-800 transition-colors duration-200">
+        <nav className="flex justify-between items-center px-4 md:px-8 py-3 transition-colors duration-200">
             <div className="flex flex-col cursor-pointer" onClick={() => setActiveTab && setActiveTab('home')}>
                 <span className="text-sm font-medium text-gray-500 dark:text-gray-400 tracking-wide hidden md:block">Welcome to</span>
                 <h1 className="text-2xl font-black text-gray-900 dark:text-white tracking-tight">
