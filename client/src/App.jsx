@@ -28,7 +28,11 @@ export const supabase = (supabaseUrl && supabaseAnonKey)
     ? createClient(supabaseUrl, supabaseAnonKey)
     : null;
 
+import { GoogleGenerativeAI } from '@google/generative-ai';
 
+// Initialize Gemini
+const geminiApiKey = import.meta.env.VITE_GEMINI_API_KEY || "AIzaSyBWchuIcpM92mKBushI79JVPhe4A7EQtA4";
+const genAI = new GoogleGenerativeAI(geminiApiKey);
 
 export const ChatBot = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -66,19 +70,18 @@ export const ChatBot = () => {
         setMessages(prev => [...prev, { role: 'user', content: userMessage }]);
         setIsLoading(true);
 
-        // Simulated Royal Heritage AI response
-        setTimeout(() => {
-            const responses = [
-                "A fine query! The Amba Vilas Palace is best viewed at twilight when its illumination begins.",
-                "Mysuru Silk is a legacy of the Wadiyars. For the most authentic experience, visit the Government Silk Weaving Factory.",
-                "The fragrance of Sandalwood is the soul of our city. I recommend exploring the local markets near Devaraja Market.",
-                "Mysore Pak was invented in the royal kitchens. You must try it at Guru Sweet Mart, the direct descendants of the inventor!"
-            ];
-            const randomResponse = responses[Math.floor(Math.random() * responses.length)];
-
-            setMessages(prev => [...prev, { role: 'assistant', content: randomResponse }]);
+        try {
+            const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
+            const prompt = `You are a Heritage Guide to the City of Palaces, Mysuru (Mysore). Answer in a royal, polite, and helpful tone. Keep responses somewhat brief. User query: ${userMessage}`;
+            const result = await model.generateContent(prompt);
+            const responseText = result.response.text();
+            setMessages(prev => [...prev, { role: 'assistant', content: responseText }]);
+        } catch (error) {
+            console.error("Gemini AI error:", error);
+            setMessages(prev => [...prev, { role: 'assistant', content: "My apologies, traveler. The royal archives are currently inaccessible. Please try again." }]);
+        } finally {
             setIsLoading(false);
-        }, 1500);
+        }
     };
 
     const handleKey = (e) => {
@@ -128,7 +131,7 @@ export const ChatBot = () => {
                     <div className="flex-1 overflow-y-auto p-4 space-y-6 custom-scrollbar bg-[url('https://www.transparenttextures.com/patterns/black-paper.png')]">
                         {messages.map((m, idx) => (
                             <div key={idx} className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'} animate-in fade-in duration-500`}>
-                                <div className={`relative px-4 py-3 rounded-2xl text-sm leading-relaxed max-w-[85%] shadow-xl ${m.role === 'user'
+                                <div className={`relative px-4 py-3 rounded-2xl text-sm leading-relaxed max-w-[85%] shadow-xl whitespace-pre-wrap ${m.role === 'user'
                                     ? 'bg-[#D4AF37] text-[#111827] rounded-tr-none font-bold'
                                     : 'bg-white/5 text-gray-200 border border-[#D4AF37]/20 rounded-tl-none font-medium backdrop-blur-md'
                                     }`}>
@@ -2850,6 +2853,7 @@ export const TravaAI = ({ onBack }) => {
         { role: 'assistant', content: 'Namaskara! I am Trava AI, your personal Mysuru travel companion. How can I help you explore the city today?' }
     ]);
     const [input, setInput] = useState('');
+    const [isTravaLoading, setIsTravaLoading] = useState(false);
 
     const toggleInterest = (interest) => {
         setFormData(prev => ({
@@ -2860,6 +2864,66 @@ export const TravaAI = ({ onBack }) => {
         }));
     };
 
+    const handleTravaMessage = async (msgOverride) => {
+        const msg = typeof msgOverride === 'string' ? msgOverride : input;
+        if (!msg.trim() || isTravaLoading) return;
+
+        const userMessage = msg.trim();
+        setInput('');
+
+        _setMessages(prev => [...prev, { role: 'user', content: userMessage }]);
+        setIsTravaLoading(true);
+
+        try {
+            const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
+            const prompt = `You are Trava AI, an intelligent personal travel companion for Mysuru (Mysore). Be very helpful, knowledgeable, and suggest highly practical travel tips, itineraries, and facts based on the city's rich heritage. Format your output clearly. User query: ${userMessage}`;
+            const result = await model.generateContent(prompt);
+            const responseText = result.response.text();
+            _setMessages(prev => [...prev, { role: 'assistant', content: responseText }]);
+        } catch (error) {
+            console.error("Trava AI chat error:", error);
+            _setMessages(prev => [...prev, { role: 'assistant', content: "Sorry, I am having trouble fetching the information right now." }]);
+        } finally {
+            setIsTravaLoading(false);
+        }
+    };
+
+    const generatePlanner = async () => {
+        setIsTravaLoading(true);
+        try {
+            const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
+            const prompt = `Generate a detailed Mysuru travel itinerary based on these user preferences:
+Theme/Identity: ${formData.tripName || 'My Mysuru Trip'}
+Starting City: ${formData.startingFrom || 'Anywhere'}
+Specific Places Interested: ${formData.destinations || 'Any'}
+Travelers Count: ${formData.travelers}
+Core Theme: ${formData.theme}
+Persona: ${formData.persona}
+Interests: ${formData.interests.join(', ') || 'General Sightseeing'}
+Dates: from ${formData.startDate || 'flexible'} to ${formData.endDate || 'flexible'}
+Pace: ${formData.pace}
+Timings: Arrival at ${formData.arrivalTime || 'flexible'}, Departure at ${formData.departureTime || 'flexible'}
+Budget: ${formData.budget}
+Accommodation Type: ${formData.accommodation}
+Dietary Preference: ${formData.diet}
+Transport: ${formData.transport} (${formData.vehicleType})
+Special Requests: ${formData.specialRequests || 'None'}
+
+Please provide a highly structured, day-by-day (or logical if dates are flexible) itinerary that is directly aligned with these choices. Make it immersive, accurate, practical, and highly detailed. Incorporate local Mysuru culture. Give it a royal, welcoming introductory tone.`;
+
+            const result = await model.generateContent(prompt);
+            const responseText = result.response.text();
+            _setMessages(prev => [...prev, { role: 'assistant', content: `Here is your customized Heritage ID and Itinerary:\n\n${responseText}` }]);
+            setMode('chat');
+        } catch (error) {
+            console.error("Trava AI planner error:", error);
+            _setMessages(prev => [...prev, { role: 'assistant', content: "Sorry, I couldn't generate the itinerary at this time. Please try again or check your connection." }]);
+            setMode('chat');
+        } finally {
+            setIsTravaLoading(false);
+        }
+    };
+
     const renderChat = () => (
         <div className="flex flex-col h-full animate-in fade-in duration-700">
             <div className="flex-1 overflow-y-auto px-8 md:px-12 py-8 space-y-6 custom-scrollbar pb-32">
@@ -2868,7 +2932,7 @@ export const TravaAI = ({ onBack }) => {
                         <div className={`relative max-w-[80%] md:max-w-[70%] p-5 rounded-3xl ${m.role === 'user'
                             ? 'bg-[#D4AF37] text-black shadow-xl shadow-amber-900/10 rounded-tr-none font-bold'
                             : 'bg-white dark:bg-gray-800 border border-[#D4AF37]/20 dark:border-gray-700 text-gray-800 dark:text-gray-200 shadow-sm rounded-tl-none font-medium'}`}>
-                            <p className="text-sm md:text-base leading-relaxed">{m.content}</p>
+                            <p className="text-sm md:text-base leading-relaxed whitespace-pre-wrap">{m.content}</p>
                         </div>
                     </div>
                 ))}
@@ -2878,7 +2942,7 @@ export const TravaAI = ({ onBack }) => {
                 <div className="max-w-4xl mx-auto bg-white/80 dark:bg-gray-900/80 backdrop-blur-2xl p-6 rounded-[2.5rem] shadow-[0_20px_50px_rgba(0,0,0,0.1)] border border-white/20 dark:border-gray-800">
                     <div className="flex gap-2 mb-4 overflow-x-auto pb-2 scrollbar-hide">
                         {["Tell me about Somnathpur", "Best period to visit?", "Top 5 local eateries"].map(s => (
-                            <button key={s} onClick={() => setInput(s)} className="whitespace-nowrap px-5 py-2.5 bg-gray-50 dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-full text-[10px] font-black uppercase tracking-widest text-gray-500 hover:border-[#D4AF37] hover:text-[#D4AF37] transition-all transform hover:scale-105 active:scale-95">
+                            <button key={s} onClick={() => handleTravaMessage(s)} className="whitespace-nowrap px-5 py-2.5 bg-gray-50 dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-full text-[10px] font-black uppercase tracking-widest text-gray-500 hover:border-[#D4AF37] hover:text-[#D4AF37] transition-all transform hover:scale-105 active:scale-95 disabled:opacity-50" disabled={isTravaLoading}>
                                 {s}
                             </button>
                         ))}
@@ -2887,11 +2951,21 @@ export const TravaAI = ({ onBack }) => {
                         <input
                             value={input}
                             onChange={(e) => setInput(e.target.value)}
-                            placeholder="Type your curiosity about Mysuru..."
-                            className="w-full bg-gray-50 dark:bg-gray-800/50 border border-gray-100 dark:border-gray-700 rounded-2xl py-5 pl-7 pr-16 text-sm md:text-base focus:outline-none focus:ring-4 focus:ring-[#D4AF37]/10 transition-all placeholder-gray-400 font-medium"
+                            onKeyDown={(e) => {
+                                if (e.key === 'Enter') {
+                                    e.preventDefault();
+                                    handleTravaMessage();
+                                }
+                            }}
+                            disabled={isTravaLoading}
+                            placeholder={isTravaLoading ? "Trava AI is thinking..." : "Type your curiosity about Mysuru..."}
+                            className="w-full bg-gray-50 dark:bg-gray-800/50 border border-gray-100 dark:border-gray-700 rounded-2xl py-5 pl-7 pr-16 text-sm md:text-base focus:outline-none focus:ring-4 focus:ring-[#D4AF37]/10 transition-all placeholder-gray-400 font-medium disabled:opacity-60"
                         />
-                        <button className="absolute right-3 top-1/2 -translate-y-1/2 w-12 h-12 bg-black dark:bg-[#D4AF37] rounded-xl flex items-center justify-center text-white dark:text-black shadow-lg shadow-black/10 hover:scale-110 active:scale-90 transition-all">
-                            <Send size={20} />
+                        <button
+                            onClick={() => handleTravaMessage()}
+                            disabled={isTravaLoading || !input.trim()}
+                            className="absolute right-3 top-1/2 -translate-y-1/2 w-12 h-12 bg-black dark:bg-[#D4AF37] rounded-xl flex items-center justify-center text-white dark:text-black shadow-lg shadow-black/10 hover:scale-110 active:scale-90 transition-all disabled:opacity-50 disabled:hover:scale-100">
+                            {isTravaLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : <Send size={20} />}
                         </button>
                     </div>
                 </div>
@@ -3152,10 +3226,13 @@ export const TravaAI = ({ onBack }) => {
 
             {/* Bottom Generation Action */}
             <div className="max-w-4xl mx-auto w-full">
-                <button className="group relative w-full py-8 bg-black dark:bg-[#D4AF37] text-white dark:text-black rounded-[2.5rem] font-black text-sm uppercase tracking-[0.5em] shadow-[0_30px_60px_-15px_rgba(0,0,0,0.3)] dark:shadow-[0_30px_60px_-15px_rgba(212,175,55,0.3)] hover:scale-[1.02] active:scale-95 transition-all duration-500 overflow-hidden">
+                <button
+                    onClick={generatePlanner}
+                    disabled={isTravaLoading}
+                    className="group relative w-full py-8 bg-black dark:bg-[#D4AF37] text-white dark:text-black rounded-[2.5rem] font-black text-sm uppercase tracking-[0.5em] shadow-[0_30px_60px_-15px_rgba(0,0,0,0.3)] dark:shadow-[0_30px_60px_-15px_rgba(212,175,55,0.3)] hover:scale-[1.02] active:scale-95 transition-all duration-500 overflow-hidden disabled:opacity-50 disabled:scale-100">
                     <span className="relative z-10 flex items-center justify-center gap-3">
-                        Construct Your Heritage ID
-                        <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />
+                        {isTravaLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : "Construct Your Heritage ID"}
+                        {!isTravaLoading && <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />}
                     </span>
                     <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
                 </button>
@@ -4738,7 +4815,7 @@ const allPlacesMap = new Map();
 [...featuredPlaces, ...popularPlaces].forEach(place => {
     allPlacesMap.set(place.id, place);
 });
-export const allPlaces = Array.from(allPlacesMap.values());
+const allPlaces = Array.from(allPlacesMap.values());
 
 
 
