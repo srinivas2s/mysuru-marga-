@@ -230,11 +230,11 @@ export const ChatBot = () => {
             {!isOpen && (
                 <button
                     onClick={() => setIsOpen(true)}
-                    className="fixed bottom-6 right-6 z-[9999] w-16 h-16 bg-gradient-to-br from-[#D4AF37] to-[#B8941F] text-white rounded-full shadow-2xl hover:scale-110 active:scale-95 transition-all duration-300 flex items-center justify-center group"
+                    className="fixed bottom-28 md:bottom-6 right-6 z-[9999] w-16 h-16 bg-gradient-to-br from-[#D4AF37] to-[#B8941F] text-white rounded-full shadow-2xl hover:scale-110 active:scale-95 transition-all duration-300 flex items-center justify-center group"
                     aria-label="Open chat"
                 >
                     <MessageCircle className="w-7 h-7 group-hover:rotate-12 transition-transform" />
-                    <div className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full animate-pulse"></div>
+                    <div className="absolute -top-1 -right-1 w-4 h-4 bg-red-50 rounded-full animate-pulse shadow-sm"></div>
                 </button>
             )}
 
@@ -434,7 +434,7 @@ export const Explore = ({ places, onCardClick, savedPlaceIds = [], onToggleSave,
 
     return (
         <div className="pb-32 bg-mysore-50 dark:bg-gray-950 min-h-screen">
-            <div className="sticky top-0 bg-mysore-50/80 dark:bg-gray-950/80 backdrop-blur-xl z-30 px-8 md:px-12 py-6 border-b border-gray-100 dark:border-gray-900 transition-all">
+            <div className="sticky top-[80px] md:top-[88px] bg-mysore-50/80 dark:bg-gray-950/80 backdrop-blur-xl z-30 px-6 md:px-12 py-4 md:py-6 border-b border-gray-100 dark:border-gray-900 transition-all">
                 <div className="relative w-full">
                     <Search className="absolute left-5 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
                     <input
@@ -442,7 +442,7 @@ export const Explore = ({ places, onCardClick, savedPlaceIds = [], onToggleSave,
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
                         placeholder="Search heritage, nature, food..."
-                        className="w-full bg-gray-50 dark:bg-gray-900 rounded-[1.5rem] py-4 pl-14 pr-6 text-sm font-medium dark:text-gray-200 focus:outline-none focus:ring-4 focus:ring-[#D4AF37]/10 transition-all placeholder-gray-400"
+                        className="w-full bg-gray-50 dark:bg-gray-900 rounded-[1.5rem] py-3.5 md:py-4 pl-14 pr-6 text-sm font-medium dark:text-gray-200 focus:outline-none focus:ring-4 focus:ring-[#D4AF37]/10 transition-all placeholder-gray-400"
                     />
                 </div>
             </div>
@@ -1308,7 +1308,13 @@ export const PlaceCard = ({ image, category, title, description, location, ratin
 
 export const PlaceDetails = ({ place, onBack, isSaved, onToggleSave, userEmail, onGetDirections }) => {
     const [showReviewForm, setShowReviewForm] = useState(false);
-    const [localFeedbacks, setLocalFeedbacks] = useState([]);
+    const scrollContainerRef = useRef(null);
+
+    useEffect(() => {
+        if (scrollContainerRef.current) {
+            scrollContainerRef.current.scrollTop = 0;
+        }
+    }, [place]);
 
     useEffect(() => {
         // Load initial feedbacks
@@ -1342,7 +1348,10 @@ export const PlaceDetails = ({ place, onBack, isSaved, onToggleSave, userEmail, 
     return (
         <div className="relative flex flex-col h-full bg-white dark:bg-gray-900 animate-in fade-in slide-in-from-right duration-300 overflow-hidden">
             {/* Scrollable Content Container */}
-            <div className="flex-1 overflow-y-auto pb-6 custom-scrollbar">
+            <div
+                ref={scrollContainerRef}
+                className="flex-1 overflow-y-auto pb-40 custom-scrollbar"
+            >
                 {/* Hero Image Section */}
                 <div className="relative h-[380px] w-full shrink-0">
                     <img
@@ -2617,11 +2626,11 @@ export const AuthPage = ({ onLogin, onSignUp }) => {
             </div>
 
             {/* Main Auth Container */}
-            <div className={`relative w-full max-w-6xl h-[85vh] bg-white/70 dark:bg-gray-900/70 backdrop-blur-3xl rounded-[3.5rem] shadow-[0_50px_100px_-20px_rgba(0,0,0,0.4)] overflow-hidden transition-all duration-1000 border border-white/20 dark:border-gray-800`}>
+            <div className={`relative w-full max-w-6xl h-full md:h-[85vh] bg-white/70 dark:bg-gray-900/70 backdrop-blur-3xl rounded-[2.5rem] md:rounded-[3.5rem] shadow-[0_50px_100px_-20px_rgba(0,0,0,0.4)] overflow-y-auto md:overflow-hidden transition-all duration-1000 border border-white/20 dark:border-gray-800`}>
 
                 {/* Visual Branding Overlay (The Sliding Part) */}
                 <div
-                    className={`absolute top-0 bottom-0 z-30 w-full md:w-[60%] transition-all duration-1000 cubic-bezier(0.4, 0, 0.2, 1) transform overflow-hidden ${isSignUp ? 'translate-x-0 md:translate-x-[66.6%]' : 'translate-x-0 md:translate-x-0'
+                    className={`absolute md:top-0 md:bottom-0 z-30 w-full md:w-[60%] h-64 md:h-full transition-all duration-1000 cubic-bezier(0.4, 0, 0.2, 1) transform overflow-hidden ${isSignUp ? 'translate-x-0 md:translate-x-[66.6%]' : 'translate-x-0 md:translate-x-0'
                         }`}
                 >
                     <div className="absolute inset-0 z-40 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
@@ -2631,17 +2640,17 @@ export const AuthPage = ({ onLogin, onSignUp }) => {
                         className={`absolute inset-0 w-full h-full object-cover transition-transform duration-[2500ms] ${isSignUp ? 'scale-125 md:translate-x-10' : 'scale-110 translate-x-0'}`}
                     />
 
-                    <div className="absolute bottom-16 left-16 right-16 z-50 text-white">
-                        <p className="text-sm font-bold uppercase tracking-[0.6em] text-[#D4AF37] mb-4 drop-shadow-md">Beyond the Palace</p>
-                        <h2 className="text-5xl lg:text-7xl font-serif mb-8 drop-shadow-lg leading-tight">Discover the <br />Soul of Mysuru</h2>
-                        <p className="text-lg text-gray-200 max-w-md drop-shadow-md font-light leading-relaxed opacity-90">
+                    <div className="absolute bottom-10 md:bottom-16 left-8 md:left-16 right-8 md:right-16 z-50 text-white">
+                        <p className="text-[10px] md:text-sm font-bold uppercase tracking-[0.6em] text-[#D4AF37] mb-2 md:mb-4 drop-shadow-md">Beyond the Palace</p>
+                        <h2 className="text-3xl md:text-5xl lg:text-7xl font-serif mb-4 md:mb-8 drop-shadow-lg leading-tight">Heritage <br />Explorer</h2>
+                        <p className="hidden md:block text-lg text-gray-200 max-w-md drop-shadow-md font-light leading-relaxed opacity-90">
                             Uncover hidden gems, local artisans & authentic experiences that usually go unexplored.
                         </p>
                     </div>
                 </div>
 
                 {/* Form Panels Container */}
-                <div className="relative w-full h-full flex flex-col md:flex-row">
+                <div className="relative w-full h-full flex flex-col md:flex-row pt-64 md:pt-0">
 
                     {/* LEFT PANEL (Sign Up) */}
                     <div className={`w-full md:w-[40%] h-full flex items-center justify-center p-8 lg:p-16 transition-all duration-1000 ease-in-out ${isSignUp ? 'opacity-100 translate-x-0 z-20' : 'opacity-0 translate-x-20 pointer-events-none z-10'
@@ -2809,7 +2818,7 @@ export const AuthPage = ({ onLogin, onSignUp }) => {
                     </div>
 
                     {/* RIGHT PANEL (Login) */}
-                    <div className={`w-full md:w-[40%] h-full ml-auto flex items-center justify-center p-8 lg:p-16 transition-all duration-1000 ease-in-out ${!isSignUp ? 'opacity-100 translate-x-0 z-20' : 'opacity-0 -translate-x-20 pointer-events-none z-10'
+                    <div className={`w-full md:w-[40%] h-auto md:h-full ml-auto flex items-center justify-center p-8 lg:p-16 transition-all duration-1000 ease-in-out ${!isSignUp ? 'opacity-100 translate-x-0 z-20' : 'opacity-0 -translate-x-20 pointer-events-none z-10'
                         }`}>
                         <div className="w-full max-w-sm">
                             <div className="mb-12 text-center md:text-left">
@@ -4539,7 +4548,11 @@ export const popularPlaces = [
         location: "KRS Road (15km)",
         rating: 4.6,
         coords: [12.4214, 76.5912],
-        image: "/balmuri.webp"
+        image: "/balmuri.webp",
+        visitingTime: "6:00 AM - 6:00 PM",
+        ticketFee: "Free Entry",
+        history: "A man-made check dam on the Cauvery River, constructed during the building of the Krishna Raja Sagara (KRS) dam to store water for irrigation.",
+        heritage: "It is a popular picnic spot and has been a favorite location for South Indian film songs for decades due to its scenic step-fall effect."
     },
     {
         id: 'edmuri-falls',
@@ -4550,7 +4563,11 @@ export const popularPlaces = [
         location: "KRS Road (15km)",
         rating: 4.4,
         coords: [12.4225, 76.5895],
-        image: "/edmuri.webp"
+        image: "/edmuri.webp",
+        visitingTime: "6:00 AM - 6:00 PM",
+        ticketFee: "Free Entry",
+        history: "A smaller sibling to Balmuri Falls, this is also a check dam used for ancient irrigation. It is quieter and less crowded, offering a more natural riverside experience.",
+        heritage: "While Balmuri is famous for films, Edmuri is known among locals for spiritual rituals performed on the banks of the sacred Cauvery river."
     },
     {
         id: 'wax-museum',
@@ -4561,7 +4578,11 @@ export const popularPlaces = [
         location: "Siddhartha Layout",
         rating: 4.3,
         coords: [12.3015, 76.6855],
-        image: "/wax.webp"
+        image: "/wax.webp",
+        visitingTime: "9:30 AM - 7:00 PM",
+        ticketFee: "₹50",
+        history: "Owned by an IT professional, this museum is housed in a heritage building. It was established to pay tribute to musicians across the world and houses over 300 musical instruments.",
+        heritage: "It is the largest collection of its kind in India, showcasing traditional Indian instruments and Western orchestras, preserved in a vintage Mysore architectural structure."
     },
     {
         id: 'karighatta',
@@ -4572,7 +4593,11 @@ export const popularPlaces = [
         location: "Srirangapatna (20km)",
         rating: 4.7,
         coords: [12.4285, 76.7125],
-        image: "https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&q=80&w=1000"
+        image: "https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&q=80&w=1000",
+        visitingTime: "10:00 AM - 12:00 PM, 5:00 PM - 7:00 PM",
+        ticketFee: "Free Entry",
+        history: "Legend says that during the Ramayana, Sugriva brought a hill from the Himalayas to help build the Rama Setu, and a piece fell here. The temple is dedicated to Lord Vaikunta Srinivasa.",
+        heritage: "The hill is unique for its 'Darbha' grass, which is believed to be medicinal. It offers a confluence view where the rivers Cauvery and Lokapavani meet."
     },
     {
         id: 'meenakshipura',
@@ -4583,7 +4608,11 @@ export const popularPlaces = [
         location: "KRS Backwaters (25km)",
         rating: 4.5,
         coords: [12.3855, 76.5425],
-        image: "/meenakshi.webp"
+        image: "/meenakshi.webp",
+        visitingTime: "Open 24/7 (Best during sunrise/sunset)",
+        ticketFee: "Free Entry",
+        history: "A quiet village area by the backwaters of the KRS Dam, which has gained popularity as a peaceful retreat away from the city's hustle.",
+        heritage: "Known as the 'Mini Goa' of Mysore, it offers a serene landscape that changes with the water levels of the dam, revealing hidden landscapes during summer."
     },
     {
         id: 'venugopalaswamy-temple',
@@ -4594,7 +4623,11 @@ export const popularPlaces = [
         location: "Hosa Kannambadi (30km)",
         rating: 4.8,
         coords: [12.4125, 76.5125],
-        image: "/venugopalaswamy.webp"
+        image: "/venugopalaswamy.webp",
+        visitingTime: "6:00 AM - 1:00 PM, 4:00 PM - 8:30 PM",
+        ticketFee: "Free Entry",
+        history: "Originally built in the 12th century by Hoysalas, this temple was submerged in 1930 for the KRS dam. It resurfaced after 70 years and was meticulously relocated stone-by-stone to its new home in 2011.",
+        heritage: "A masterpiece of Hoysala architecture, the temple is unique because it was completely relocated without losing its structural integrity, standing now as a symbol of heritage preservation."
     },
     {
         id: 'mysore-palace',
@@ -4620,7 +4653,7 @@ export const popularPlaces = [
         location: "Chamundi Hills",
         rating: 4.8,
         coords: [12.2753, 76.6701],
-        image: "/chamundi.png",
+        image: "/chamundi-trek.webp",
         visitingTime: "7:30 AM - 9:00 PM",
         ticketFee: "Free Entry (Special Darshan ₹100)",
         history: "The temple dates back to the 12th century, with the tower built by the Vijayanagara rulers. The Wodeyar kings later made significant additions, including the 1000 steps leading to the top.",
@@ -4690,15 +4723,19 @@ export const popularPlaces = [
         image: "/kukkarahalli.png"
     },
     {
-        id: 'sand-sculpture',
-        title: "Sand Sculpture Museum",
+        id: 'sand-museum',
+        title: "Mysore Sand Sculpture Museum",
         category: "Hidden Gem",
         categoryColor: "bg-mysore-600",
-        description: "The world's first sand sculpture museum dedicated to artistic themes and culture.",
+        description: "India's first sand sculpture museum, showcasing intricate artwork made entirely of sand and water.",
         location: "Chamundi Hill Road",
         rating: 4.4,
-        coords: [12.2921, 76.6851],
-        image: "/sand.webp"
+        coords: [12.2952, 76.6812],
+        image: "/sand.webp",
+        visitingTime: "8:30 AM - 6:30 PM",
+        ticketFee: "₹40 (Adults), ₹20 (Children)",
+        history: "Created by artist M.N. Gowri, this is India's first ever sand sculpture museum. It was built using 115 truckloads of sand.",
+        heritage: "The museum showcases over 150 sculptures on 16 different themes, ranging from the heritage of Mysore and Dasara processions to wildlife and culture, all made purely with sand and water."
     },
     {
         id: 'rail-museum',
@@ -4865,6 +4902,7 @@ export const allPlaces = Array.from(allPlacesMap.values());
 
 
 function App() {
+    const mainScrollRef = useRef(null);
     const [isLoading, setIsLoading] = useState(true);
     const [isAuthRestoring, setIsAuthRestoring] = useState(true); // New state for initial check
     const [isAuthenticated, setIsAuthenticated] = useState(() => !!localStorage.getItem('userData'));
@@ -4974,10 +5012,102 @@ function App() {
         localStorage.setItem('savedPlaces', JSON.stringify(savedPlaceIds));
     }, [savedPlaceIds]);
 
+    // Gesture Navigation (Trackpad / 2-Finger Swipe)
+    React.useEffect(() => {
+        let lastSwipeTime = 0;
+        const SWIPE_COOLDOWN = 600; // ms
+        const SWIPE_THRESHOLD = 30; // sensitivity
+
+        const handleWheel = (e) => {
+            // deltaX is horizontal scroll (2-finger swipe on trackpad)
+            const dx = e.deltaX;
+            const dy = e.deltaY;
+
+            // Only trigger if horizontal movement is clearly dominant and meets threshold
+            if (Math.abs(dx) > Math.abs(dy) * 2 && Math.abs(dx) > SWIPE_THRESHOLD) {
+                const now = Date.now();
+                if (now - lastSwipeTime < SWIPE_COOLDOWN) return;
+
+                const tabs = ['home', 'explore', 'MapComponent', 'saved', 'planner'];
+                const currentIndex = tabs.indexOf(activeTab);
+
+                if (dx < -SWIPE_THRESHOLD) { // Swipe Right (Fingers move L to R) -> GO BACK
+                    lastSwipeTime = now;
+                    if (activeTab === 'details') {
+                        setActiveTab('home');
+                    } else if (currentIndex > 0) {
+                        setActiveTab(tabs[currentIndex - 1]);
+                    }
+                } else if (dx > SWIPE_THRESHOLD) { // Swipe Left (Fingers move R to L) -> GO NEXT
+                    lastSwipeTime = now;
+                    if (activeTab === 'details') return; // Don't swipe forward from details
+                    if (currentIndex !== -1 && currentIndex < tabs.length - 1) {
+                        setActiveTab(tabs[currentIndex + 1]);
+                    }
+                }
+            }
+        };
+
+        window.addEventListener('wheel', handleWheel, { passive: true });
+        return () => window.removeEventListener('wheel', handleWheel);
+    }, [activeTab]);
+
+    // Touch Swipe Navigation for Mobile
+    React.useEffect(() => {
+        let touchStartX = 0;
+        let touchStartY = 0;
+
+        const handleTouchStart = (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+            touchStartY = e.changedTouches[0].screenY;
+        };
+
+        const handleTouchEnd = (e) => {
+            const touchEndX = e.changedTouches[0].screenX;
+            const touchEndY = e.changedTouches[0].screenY;
+
+            const dx = touchStartX - touchEndX;
+            const dy = touchStartY - touchEndY;
+
+            // Sensitivity threshold
+            if (Math.abs(dx) > Math.abs(dy) * 1.5 && Math.abs(dx) > 100) {
+                const tabs = ['home', 'explore', 'MapComponent', 'saved', 'planner'];
+                const currentIndex = tabs.indexOf(activeTab);
+
+                if (dx < 0) { // Swiped Right -> BACK
+                    if (activeTab === 'details') {
+                        setActiveTab('home');
+                    } else if (currentIndex > 0) {
+                        setActiveTab(tabs[currentIndex - 1]);
+                    }
+                } else { // Swiped Left -> NEXT
+                    if (activeTab === 'details') return;
+                    if (currentIndex !== -1 && currentIndex < tabs.length - 1) {
+                        setActiveTab(tabs[currentIndex + 1]);
+                    }
+                }
+            }
+        };
+
+        window.addEventListener('touchstart', handleTouchStart);
+        window.addEventListener('touchend', handleTouchEnd);
+        return () => {
+            window.removeEventListener('touchstart', handleTouchStart);
+            window.removeEventListener('touchend', handleTouchEnd);
+        };
+    }, [activeTab]);
+
     // Initial Auth Check
     React.useEffect(() => {
         setIsAuthRestoring(false); // Auth restoration attempt complete
     }, []);
+
+    // Scroll to Top on Tab Change
+    React.useEffect(() => {
+        if (mainScrollRef.current) {
+            mainScrollRef.current.scrollTop = 0;
+        }
+    }, [activeTab]);
 
     const [_session, setSession] = useState(null);
 
@@ -5300,8 +5430,11 @@ function App() {
                 </div>
             )}
 
-            <div className={`flex-1 ${activeTab !== 'MapComponent' && activeTab !== 'details' ? 'overflow-y-auto pb-24 md:pb-0 custom-scrollbar' : 'overflow-hidden h-[calc(100vh-64px)]'}`}>
-                <div className="max-w-7xl mx-auto w-full h-full">
+            <div
+                ref={mainScrollRef}
+                className={`flex-1 ${activeTab !== 'MapComponent' && activeTab !== 'details' ? 'overflow-y-auto pb-24 md:pb-0 custom-scrollbar' : 'overflow-hidden h-full'}`}
+            >
+                <div className="max-w-7xl mx-auto w-full h-full relative">
                     {renderContent()}
                 </div>
             </div>
