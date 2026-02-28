@@ -6,7 +6,7 @@ import {
     Check, MessageSquare, Users, BarChart3, LogOut, Shield, Inbox, Handshake,
     TrendingUp, Settings, Bell, Lock, Globe, Database, ExternalLink, Download,
     Trash2, RefreshCcw, Eye, EyeOff, Mail, Phone, HelpCircle, Info, Moon, FileText,
-    LayoutDashboard, Store, Camera, Plus, Ticket
+    LayoutDashboard, Store, Camera, Plus, Ticket, History
 } from 'lucide-react';
 import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 import L from 'leaflet';
@@ -1335,9 +1335,7 @@ export const PlaceDetails = ({ place, onBack, isSaved, onToggleSave, userEmail, 
                 url: window.location.href,
             }).catch(console.error);
         } else {
-            // Fallback for browsers without share API
             navigator.clipboard.writeText(window.location.href);
-            // We could add a toast here, but for now simple clipboard is better than ugly alert
         }
     };
 
@@ -1346,139 +1344,149 @@ export const PlaceDetails = ({ place, onBack, isSaved, onToggleSave, userEmail, 
             {/* Scrollable Content Container */}
             <div className="flex-1 overflow-y-auto pb-6 custom-scrollbar">
                 {/* Hero Image Section */}
-                <div className="relative h-80 w-full shrink-0">
+                <div className="relative h-[380px] w-full shrink-0">
                     <img
                         src={place.image}
                         alt={place.title}
                         className="w-full h-full object-cover"
                     />
-                    <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-black/60 to-transparent pointer-events-none" />
+                    <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-black/80 via-black/20 to-transparent pointer-events-none" />
 
                     {/* Top Controls */}
-                    <div className="absolute top-6 inset-x-0 px-6 flex items-center justify-between">
+                    <div className="absolute top-6 inset-x-0 px-6 flex items-center justify-between z-10">
                         <button
                             onClick={onBack}
-                            className="p-2 bg-white/20 backdrop-blur-md rounded-full text-white hover:bg-white/30 transition-colors"
+                            className="p-3 bg-black/30 backdrop-blur-xl rounded-2xl text-white border border-white/20 hover:bg-black/40 transition-all active:scale-90"
                         >
                             <ChevronLeft className="w-6 h-6" />
                         </button>
                         <div className="flex gap-3">
                             <button
                                 onClick={handleShare}
-                                className="p-2 bg-white/20 backdrop-blur-md rounded-full text-white hover:bg-white/30 transition-colors"
+                                className="p-3 bg-black/30 backdrop-blur-xl rounded-2xl text-white border border-white/20 hover:bg-black/40 transition-all active:scale-90"
                             >
                                 <Share2 className="w-5 h-5" />
                             </button>
                             <button
                                 onClick={(e) => onToggleSave(e, place.id)}
-                                className={`p-2 backdrop-blur-md rounded-full transition-colors ${isSaved ? 'bg-red-500 text-white' : 'bg-white/20 text-white hover:bg-white/30'
+                                className={`p-3 backdrop-blur-xl rounded-2xl border border-white/20 transition-all active:scale-90 ${isSaved ? 'bg-red-500 text-white border-red-400' : 'bg-black/30 text-white'
                                     }`}
                             >
                                 <Heart className={`w-5 h-5 ${isSaved ? 'fill-current' : ''}`} />
                             </button>
                         </div>
                     </div>
+
+                    <div className="absolute bottom-12 left-6 right-6 z-10">
+                        <span className={`px-4 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-widest text-white shadow-lg ${place.categoryColor || 'bg-amber-600'}`}>
+                            {place.category}
+                        </span>
+                        <h1 className="text-4xl font-serif text-white mt-4 drop-shadow-2xl leading-tight">{place.title}</h1>
+                    </div>
                 </div>
 
-                {/* Content Section - Overlapping Card */}
-                <div className="relative -mt-10 bg-white dark:bg-gray-900 rounded-t-[32px] px-6 pt-8">
-                    <div className="flex flex-col gap-4">
-                        <div className="flex items-center justify-between">
-                            <span className={`px-3 py-1 rounded-full text-xs font-semibold text-white ${place.categoryColor || 'bg-amber-600'}`}>
-                                {place.category}
-                            </span>
-                            <div className="flex items-center gap-1">
-                                <Star className="w-4 h-4 fill-amber-400 text-amber-400" />
-                                <span className="text-sm font-bold text-gray-900 dark:text-white">{place.rating}</span>
-                                <span className="text-xs text-gray-500">(128)</span>
+                {/* Content Section */}
+                <div className="relative px-6 pt-10 -mt-8 bg-white dark:bg-gray-900 rounded-t-[40px] shadow-[0_-20px_50px_rgba(0,0,0,0.1)]">
+                    <div className="flex flex-col gap-8">
+                        {/* Rating and Quick Stats */}
+                        <div className="flex items-center gap-6">
+                            <div className="flex items-center gap-2 px-4 py-2 bg-amber-50 dark:bg-amber-900/20 rounded-2xl border border-amber-100/50 dark:border-amber-800/30">
+                                <Star className="w-5 h-5 fill-amber-400 text-amber-400" />
+                                <span className="text-lg font-black text-gray-900 dark:text-white">{place.rating}</span>
+                                <span className="text-xs text-amber-700/60 dark:text-amber-400/60 font-medium">(120+ reviews)</span>
+                            </div>
+                            <div className="flex -space-x-3">
+                                {[1, 2, 3, 4].map((i) => (
+                                    <div key={i} className="w-10 h-10 rounded-full border-2 border-white dark:border-gray-900 bg-gray-200 overflow-hidden">
+                                        <img src={`https://i.pravatar.cc/100?u=${i}`} alt="user" className="w-full h-full object-cover" />
+                                    </div>
+                                ))}
+                                <div className="w-10 h-10 rounded-full border-2 border-white dark:border-gray-900 bg-gray-100 flex items-center justify-center text-[10px] font-bold text-gray-500">
+                                    +8k
+                                </div>
                             </div>
                         </div>
 
+                        {/* Description */}
                         <div>
-                            <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">{place.title}</h1>
-                            <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed">
+                            <h2 className="text-xs font-black uppercase tracking-[0.2em] text-gray-400 mb-3">Overview</h2>
+                            <p className="text-gray-600 dark:text-gray-300 leading-relaxed text-lg font-medium">
                                 {place.description}
                             </p>
                         </div>
 
-                        {/* Quick Info */}
-                        <div className="flex flex-wrap gap-4 py-4 border-y border-gray-100 dark:border-gray-800">
-                            <div className="flex items-center gap-2">
-                                <div className="p-2 bg-gray-50 dark:bg-gray-800 rounded-lg">
-                                    <MapPin className="w-4 h-4 text-gray-500" />
+                        {/* Essential Info Grid */}
+                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                            <div className="p-4 bg-gray-50 dark:bg-gray-800/50 rounded-3xl border border-gray-100 dark:border-gray-700 transition-hover hover:border-amber-200">
+                                <div className="w-10 h-10 bg-white dark:bg-gray-800 rounded-2xl flex items-center justify-center shadow-sm mb-3">
+                                    <Clock className="w-5 h-5 text-mysore-600" />
                                 </div>
-                                <span className="text-xs text-gray-600 dark:text-gray-400">{place.location}</span>
+                                <h4 className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-1">Timings</h4>
+                                <p className="text-sm font-bold text-gray-800 dark:text-gray-200">{place.visitingTime || '8:00 AM - 7:00 PM'}</p>
                             </div>
-                            <div className="flex items-center gap-2">
-                                <div className="p-2 bg-gray-50 dark:bg-gray-800 rounded-lg">
-                                    <Clock className="w-4 h-4 text-gray-500" />
+                            <div className="p-4 bg-gray-50 dark:bg-gray-800/50 rounded-3xl border border-gray-100 dark:border-gray-700 transition-hover hover:border-amber-200">
+                                <div className="w-10 h-10 bg-white dark:bg-gray-800 rounded-2xl flex items-center justify-center shadow-sm mb-3">
+                                    <IndianRupee className="w-5 h-5 text-emerald-600" />
                                 </div>
-                                <span className="text-xs text-gray-600 dark:text-gray-400">6:00 AM - 8:00 PM</span>
+                                <h4 className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-1">Entry Fee</h4>
+                                <p className="text-sm font-bold text-gray-800 dark:text-gray-200">{place.ticketFee || 'Free Entry'}</p>
                             </div>
-                            <div className="flex items-center gap-2">
-                                <div className="p-2 bg-gray-50 dark:bg-gray-800 rounded-lg">
-                                    <IndianRupee className="w-4 h-4 text-gray-500" />
+                            <div className="p-4 bg-gray-50 dark:bg-gray-800/50 rounded-3xl border border-gray-100 dark:border-gray-700 transition-hover hover:border-amber-200">
+                                <div className="w-10 h-10 bg-white dark:bg-gray-800 rounded-2xl flex items-center justify-center shadow-sm mb-3">
+                                    <MapPin className="w-5 h-5 text-blue-600" />
                                 </div>
-                                <span className="text-xs text-gray-600 dark:text-gray-400">Budget Friendly</span>
+                                <h4 className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-1">Location</h4>
+                                <p className="text-sm font-bold text-gray-800 dark:text-gray-200">{place.location}</p>
                             </div>
                         </div>
 
-                        {/* Tags */}
-                        <div className="flex flex-wrap gap-2">
-                            {['#heritage', '#culture', '#mysore'].map(tag => (
-                                <span key={tag} className="text-xs font-medium text-amber-600 bg-amber-50 dark:bg-amber-900/20 px-2 py-1 rounded">
-                                    {tag}
-                                </span>
-                            ))}
-                        </div>
-
-                        {/* About Section */}
-                        <div className="mt-4">
-                            <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-2">About</h2>
-                            <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
-                                {place.title} is a landmark destination in Mysore that offers an authentic glimpse into local life.
-                                The vibrant atmosphere, historic architecture, and unique offerings make it a must-visit for anyone
-                                exploring the cultural landscape of the city.
-                            </p>
-                        </div>
-
-                        {/* Highlights */}
-                        <div className="mt-4">
-                            <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-3">Highlights</h2>
-                            <div className="grid grid-cols-1 gap-3">
-                                {[
-                                    "150+ year old heritage market",
-                                    "Famous for Mysore jasmine garlands",
-                                    "Traditional spices and sandalwood",
-                                    "Best local street food"
-                                ].map((highlight, i) => (
-                                    <div key={i} className="flex items-center gap-3 bg-emerald-50/50 dark:bg-emerald-900/10 p-3 rounded-xl border border-emerald-100/50 dark:border-emerald-800/30">
-                                        <div className="w-5 h-5 rounded-full bg-emerald-100 dark:bg-emerald-800 flex items-center justify-center shrink-0">
-                                            <Check className="w-3 h-3 text-emerald-600 dark:text-emerald-400" />
+                        {/* History & Heritage */}
+                        <div className="space-y-6">
+                            {(place.history || place.heritage) ? (
+                                <>
+                                    {place.history && (
+                                        <div className="p-6 bg-slate-50 dark:bg-gray-800/30 rounded-[2rem] border-l-4 border-slate-400">
+                                            <div className="flex items-center gap-3 mb-4">
+                                                <div className="p-2 bg-slate-200 dark:bg-slate-800 rounded-xl">
+                                                    <History className="w-5 h-5 text-slate-700" />
+                                                </div>
+                                                <h3 className="text-xl font-serif text-slate-900 dark:text-slate-100">Historical Significance</h3>
+                                            </div>
+                                            <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed whitespace-pre-line">
+                                                {place.history}
+                                            </p>
                                         </div>
-                                        <p className="text-sm text-gray-700 dark:text-gray-300 font-medium">{highlight}</p>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-
-                        {/* Best Time to Visit */}
-                        <div className="mt-6 p-4 bg-amber-50 dark:bg-amber-900/10 rounded-2xl border border-amber-100 dark:border-amber-800/50">
-                            <h3 className="text-sm font-bold text-amber-900 dark:text-amber-400 mb-1">Best Time to Visit</h3>
-                            <p className="text-sm text-amber-700 dark:text-amber-500 font-medium leading-relaxed">
-                                Early morning (6-8 AM) for the freshest flowers and produce
-                            </p>
+                                    )}
+                                    {place.heritage && (
+                                        <div className="p-6 bg-amber-50/50 dark:bg-amber-900/10 rounded-[2rem] border-l-4 border-amber-400">
+                                            <div className="flex items-center gap-3 mb-4">
+                                                <div className="p-2 bg-amber-200 dark:bg-amber-800 rounded-xl">
+                                                    <Landmark className="w-5 h-5 text-amber-700" />
+                                                </div>
+                                                <h3 className="text-xl font-serif text-amber-900 dark:text-amber-100">Heritage Value</h3>
+                                            </div>
+                                            <p className="text-amber-800/70 dark:text-amber-400/70 text-sm leading-relaxed whitespace-pre-line font-medium italic">
+                                                {place.heritage}
+                                            </p>
+                                        </div>
+                                    )}
+                                </>
+                            ) : (
+                                <div className="p-8 text-center bg-gray-50 dark:bg-gray-800/50 rounded-[2rem] border border-dashed border-gray-200 dark:border-gray-700">
+                                    <p className="text-sm text-gray-500 italic">History and heritage details coming soon for this location.</p>
+                                </div>
+                            )}
                         </div>
 
                         {/* Reviews Section */}
-                        <div className="mt-8 mb-10">
-                            <div className="flex items-center justify-between mb-6">
-                                <h2 className="text-lg font-bold text-gray-900 dark:text-white">Reviews</h2>
+                        <div className="mt-4 mb-20">
+                            <div className="flex items-center justify-between mb-8">
+                                <h2 className="text-2xl font-serif text-gray-900 dark:text-white">Visitor Reviews</h2>
                                 <button
                                     onClick={() => setShowReviewForm(!showReviewForm)}
-                                    className="text-sm font-bold text-amber-600 hover:text-amber-700"
+                                    className="px-6 py-2 rounded-xl bg-amber-50 dark:bg-amber-900/20 text-amber-700 dark:text-amber-400 font-bold text-sm hover:bg-amber-100 transition-colors"
                                 >
-                                    {showReviewForm ? 'View Reviews' : 'Write Review'}
+                                    {showReviewForm ? 'Back to Reviews' : 'Leave a Review'}
                                 </button>
                             </div>
 
@@ -1486,44 +1494,40 @@ export const PlaceDetails = ({ place, onBack, isSaved, onToggleSave, userEmail, 
                                 <FeedbackSection
                                     userEmail={userEmail}
                                     onSuccess={() => {
-                                        // Update local state immediately after submission
                                         const updatedFeedbacks = JSON.parse(localStorage.getItem('user_feedback') || '[]');
                                         setLocalFeedbacks(updatedFeedbacks);
-                                        // Optionally close the form after a delay or instantly
                                         setTimeout(() => setShowReviewForm(false), 2000);
                                     }}
                                 />
                             ) : (
                                 <div className="space-y-4">
                                     {localFeedbacks.length === 0 ? (
-                                        <div className="flex flex-col items-center justify-center py-10 px-6 bg-gray-50 dark:bg-gray-800/50 rounded-3xl border border-dashed border-gray-200 dark:border-gray-700">
-                                            <div className="w-12 h-12 bg-white dark:bg-gray-800 rounded-full flex items-center justify-center shadow-sm mb-4">
-                                                <MessageSquare className="w-6 h-6 text-gray-300" />
+                                        <div className="p-12 text-center bg-gray-50 dark:bg-gray-800/30 rounded-[2rem] border border-gray-100 dark:border-gray-800">
+                                            <div className="w-16 h-16 bg-white dark:bg-gray-800 rounded-2xl flex items-center justify-center shadow-sm mx-auto mb-4">
+                                                <MessageSquare className="w-8 h-8 text-gray-200" />
                                             </div>
-                                            <p className="text-sm text-gray-500 dark:text-gray-400 font-medium">No reviews yet. Be the first!</p>
+                                            <p className="text-gray-400 font-medium">No reviews yet for this spot.</p>
                                         </div>
                                     ) : (
                                         localFeedbacks.map((fb) => (
-                                            <div key={fb.id} className="p-5 bg-gray-50 dark:bg-gray-800/50 rounded-2xl border border-gray-100 dark:border-gray-700">
-                                                <div className="flex justify-between items-start mb-2">
-                                                    <div className="flex items-center gap-2">
-                                                        <div className="w-8 h-8 rounded-full bg-amber-100 dark:bg-amber-900/30 flex items-center justify-center text-amber-700 dark:text-amber-400 font-bold text-xs">
-                                                            {fb.userEmail?.charAt(0).toUpperCase() || 'U'}
+                                            <div key={fb.id} className="p-6 bg-gray-50 dark:bg-gray-800/40 rounded-[2rem] border border-gray-100 dark:border-gray-800 shadow-sm">
+                                                <div className="flex justify-between items-start mb-4">
+                                                    <div className="flex items-center gap-3">
+                                                        <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center text-white font-bold">
+                                                            {fb.userEmail?.charAt(0).toUpperCase()}
                                                         </div>
                                                         <div>
-                                                            <p className="text-xs font-bold text-gray-900 dark:text-white">{fb.userEmail}</p>
-                                                            <div className="flex gap-0.5">
+                                                            <p className="text-sm font-black text-gray-900 dark:text-white uppercase tracking-wider">{fb.userEmail?.split('@')[0]}</p>
+                                                            <div className="flex gap-1">
                                                                 {[1, 2, 3, 4, 5].map((star) => (
-                                                                    <Star key={star} size={10} className={star <= fb.rating ? "fill-amber-400 text-amber-400" : "text-gray-300"} />
+                                                                    <Star key={star} size={12} className={star <= fb.rating ? "fill-amber-400 text-amber-400" : "text-gray-200"} />
                                                                 ))}
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <span className="text-[10px] text-gray-400 uppercase font-bold">
-                                                        {new Date(fb.timestamp).toLocaleDateString()}
-                                                    </span>
+                                                    <span className="text-[10px] text-gray-400 font-black uppercase">{new Date(fb.timestamp).toLocaleDateString()}</span>
                                                 </div>
-                                                <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed italic">"{fb.comment}"</p>
+                                                <p className="text-gray-600 dark:text-gray-400 leading-relaxed italic text-sm">"{fb.comment}"</p>
                                             </div>
                                         ))
                                     )}
@@ -1534,28 +1538,32 @@ export const PlaceDetails = ({ place, onBack, isSaved, onToggleSave, userEmail, 
                 </div>
             </div>
 
-            {/* Sticky Bottom Actions Container */}
-            <div className="bg-white dark:bg-gray-900 px-6 py-4 border-t border-gray-100 dark:border-gray-800">
-                <div className="flex gap-3">
+            {/* Premium Sticky Actions */}
+            <div className="absolute bottom-0 inset-x-0 p-6 bg-gradient-to-t from-white via-white dark:from-gray-900 dark:via-gray-900 to-transparent pt-12 z-20">
+                <div className="flex gap-4 max-w-2xl mx-auto">
                     <button
                         onClick={() => {
                             const url = `https://m.uber.com/ul/?action=setPickup&client_id=YOUR_CLIENT_ID&pickup=my_location&dropoff[formatted_address]=${place.title}+Mysore&dropoff[nickname]=${place.title}`;
                             window.open(url, '_blank');
                         }}
-                        className="flex-1 bg-black dark:bg-gray-800 text-white font-bold py-4 px-6 rounded-2xl flex items-center justify-center gap-2 shadow-lg transition-all active:scale-95"
+                        className="flex-1 bg-black text-white font-black h-16 rounded-[24px] flex items-center justify-center gap-3 shadow-xl active:scale-[0.98] transition-all"
                     >
-                        <Car className="w-5 h-5" />
-                        Book Ride
+                        <Car className="w-5 h-5 text-amber-400" />
+                        <span className="uppercase tracking-[0.1em] text-sm">Book Ride</span>
                     </button>
                     <button
                         onClick={() => {
-                            const url = `https://www.google.com/maps/dir/?api=1&destination=${place.title}+Mysore`;
-                            window.open(url, '_blank');
+                            if (onGetDirections) {
+                                onGetDirections(place);
+                            } else {
+                                const url = `https://www.google.com/maps/dir/?api=1&destination=${place.coords[0]},${place.coords[1]}`;
+                                window.open(url, '_blank');
+                            }
                         }}
-                        className="flex-1 bg-[#D4AF37] hover:bg-[#B8962F] text-white font-bold py-4 px-6 rounded-2xl flex items-center justify-center gap-2 shadow-lg shadow-amber-900/20 transition-all active:scale-95"
+                        className="flex-1 bg-[#D4AF37] text-white font-black h-16 rounded-[24px] flex items-center justify-center gap-3 shadow-xl active:scale-[0.98] transition-all"
                     >
                         <Navigation className="w-5 h-5 fill-current" />
-                        Directions
+                        <span className="uppercase tracking-[0.1em] text-sm">View on Map</span>
                     </button>
                 </div>
             </div>
@@ -1584,7 +1592,7 @@ export const Saved = ({ savedPlaceIds = [], allPlaces = [], onToggleSave, onCard
     return (
         <div className="px-4 py-4 pb-20">
             <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4">Saved Places ({savedPlaces.length})</h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                 {savedPlaces.map(place => (
                     <PlaceCard
                         key={place.id}
@@ -4597,7 +4605,11 @@ export const popularPlaces = [
         location: "City Center",
         rating: 4.9,
         coords: [12.3051, 76.6551],
-        image: "/src/assets/mysore-palace-daytime.jpg"
+        image: "/src/assets/mysore-palace-daytime.jpg",
+        visitingTime: "10:00 AM - 5:30 PM",
+        ticketFee: "₹100 (Adults), ₹50 (Children)",
+        history: "Built in 1912 for the 24th Ruler of the Wodeyar Dynasty, this palace replaced the old wooden palace that was destroyed in a fire during a wedding in 1897. It was designed by the British architect Henry Irwin.",
+        heritage: "It is one of the most visited monuments in India. The palace showcases a unique blend of Hindu, Mughal, Rajput, and Gothic architectural styles, making it a masterpiece of Indo-Saracenic design."
     },
     {
         id: 'chamundi-hill',
@@ -4608,7 +4620,11 @@ export const popularPlaces = [
         location: "Chamundi Hills",
         rating: 4.8,
         coords: [12.2753, 76.6701],
-        image: "/chamundi.png"
+        image: "/chamundi.png",
+        visitingTime: "7:30 AM - 9:00 PM",
+        ticketFee: "Free Entry (Special Darshan ₹100)",
+        history: "The temple dates back to the 12th century, with the tower built by the Vijayanagara rulers. The Wodeyar kings later made significant additions, including the 1000 steps leading to the top.",
+        heritage: "Goddess Chamundeshwari is the presiding deity of Mysore. The hill also features a massive 16-foot high monolithic Nandi statue, one of the largest in India, carved out of a single boulder."
     },
     {
         id: 'st-philomenas',
@@ -4619,7 +4635,11 @@ export const popularPlaces = [
         location: "Ashoka Road",
         rating: 4.7,
         coords: [12.3209, 76.6593],
-        image: "/philomena.png"
+        image: "/philomena.png",
+        visitingTime: "5:00 AM - 6:00 PM",
+        ticketFee: "Free Entry",
+        history: "The cathedral was built in 1936 using a Neo-Gothic style. The design was inspired by the Cologne Cathedral in Germany and has twin spires that are 175 feet tall.",
+        heritage: "It stands as a symbol of the secular outlook of the Mysore Maharajas, who provided the land and funds for its construction. The church is famous for its beautiful stained glass windows depicting scenes from the life of Christ."
     },
     {
         id: 'mysore-zoo',
@@ -4630,7 +4650,11 @@ export const popularPlaces = [
         location: "Indiranagar",
         rating: 4.6,
         coords: [12.3021, 76.6644],
-        image: "/zoo.png"
+        image: "/zoo.png",
+        visitingTime: "8:30 AM - 5:30 PM (Closed on Tuesdays)",
+        ticketFee: "₹100 (Adults), ₹50 (Children)",
+        history: "Started by Maharaja Chamarajendra Wadiyar X in 1892, it is one of the oldest zoos in the world. It began with just 10 acres and has now grown to over 150 acres.",
+        heritage: "The zoo is famous for its successful bird breeding program and for housing animals from more than 40 different countries. It was the first zoo in India to introduce an animal adoption scheme."
     },
     {
         id: 'jaganmohan-palace',
