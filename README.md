@@ -81,4 +81,3 @@ npm run dev
 
 *Crafted with soul for the Heritage City of Mysuru.*
 
-If you like to implement MYSURU MARGA let Collab and send a pr 
